@@ -15,8 +15,15 @@ defmodule Day8.Layer do
 
   def render(%__MODULE__{rows: rows}) do
     Enum.reduce(rows, "", fn row, acc ->
-      acc <> Enum.join(row) <> "\n"
+      acc <> List.to_string(List.flatten(Enum.map(row, &render_char/1))) <> "\n"
     end)
+  end
+
+  def render_char(val) do
+    case val do
+      "1" -> [IO.ANSI.white(), 9608]
+      _ -> " "
+    end
   end
 
   def merge(
